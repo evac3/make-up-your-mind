@@ -1,0 +1,7 @@
+# Generated local storage; ingestion code belongs in app/.
+*.db
+*.db-*
+*.duckdb
+*.duckdb.wal
+*.parquet
+parquet/
