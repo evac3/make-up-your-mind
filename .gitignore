@@ -1,16 +1,38 @@
-# Environment variables - most important!
+# Environment variables
 .env
+*.env
+backend/.env
+frontend/.env
+frontend/.env.local
 
 # Python
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
+*$py.class
 .venv/
 venv/
 env/
+.pytest_cache/
+backend/.pytest_cache/
 
-# VS Code
+# Local databases and generated files
+data/
+backend/data/*.db
+backend/data/*.db-*
+backend/data/*.duckdb
+backend/data/*.duckdb.wal
+backend/data/*.parquet
+backend/data/parquet/
+
+# Node / Frontend
+node_modules/
+frontend/node_modules/
+dist/
+frontend/dist/
+.npm/
+
+# IDE and OS junk
 .vscode/
-
-# Mac junk
+.idea/
 .DS_Store
+Thumbs.db

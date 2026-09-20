@@ -14,8 +14,8 @@ from prompts.ocd import get_ocd_prompt
 
 load_dotenv()
 
-DB_BASE_URL = "http://localhost:8001"
-DATABASE_TIMEOUT_SECONDS = 10
+DB_BASE_URL = os.getenv("DB_BASE_URL", "http://localhost:8001")
+DATABASE_TIMEOUT_SECONDS = int(os.getenv("DATABASE_TIMEOUT_SECONDS", "10"))
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
@@ -96,7 +96,7 @@ async def chat(request: ChatRequest):
     """
     
     response = client.models.generate_content(
-        model="gemini-3.8-flash",
+        model=os.getenv("GEMINI_MODEL", "gemini-3.1-pro-preview"),
         contents=prompt,
     )
 
