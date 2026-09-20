@@ -19,7 +19,7 @@ DATABASE_TIMEOUT_SECONDS = int(os.getenv("DATABASE_TIMEOUT_SECONDS", "10"))
 
 client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
-app = FastAPI()
+app = FastAPI(title="Make Up Your Mind — AI Gateway", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -27,6 +27,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/")
+def read_root() -> dict[str, str]:
+    return {"app": "make-up-your-mind-gateway", "status": "running"}
+
+
+@app.get("/health")
+def health_check() -> dict[str, str]:
+    return {"status": "ok"}
 
 
 class ChatRequest(BaseModel):
@@ -101,7 +111,7 @@ async def chat(request: ChatRequest):
     )
 
     try:
-        requests.post(
+        saved = requests.post(
             f"{DB_BASE_URL}/decision",
             json={
                 "user_id": request.user_id,
@@ -109,11 +119,13 @@ async def chat(request: ChatRequest):
                 "ai_response": response.text,
             },
             timeout=DATABASE_TIMEOUT_SECONDS,
-        ).raise_for_status()
+        )
+        saved.raise_for_status()
+        decision_id = saved.json()["id"]
     except requests.RequestException as exc:
         raise HTTPException(
             status_code=503,
             detail="Could not save the decision to the database service",
         ) from exc
 
-    return {"response": response.text}
+    return {"response": response.text, "decision_id": decision_id}
