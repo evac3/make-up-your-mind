@@ -77,9 +77,26 @@ async def chat(request: ChatRequest):
     User profile: {user_profile}
     Past decisions: {history}
     """
+    try:
+        evidence_response = requests.get(
+            f"{DB_BASE_URL}/evidence",
+            params={"query": f"{request.condition} {request.concerns}"},
+            timeout=DATABASE_TIMEOUT_SECONDS,
+        )
+        evidence_response.raise_for_status()
+        evidence = evidence_response.json()
+    except requests.RequestException:
+        evidence = []  # Fail silently if evidence unavailable
 
+    prompt = f"""
+    {prompt}
+
+    Relevant research evidence:
+    {evidence}
+    """
+    
     response = client.models.generate_content(
-        model="gemini-3.6-flash",
+        model="gemini-3.8-flash",
         contents=prompt,
     )
 
