@@ -42,9 +42,10 @@ def health_check() -> dict[str, str]:
 class ChatRequest(BaseModel):
     user_id: int
     message: str
-    condition: str
+    condition: str = ""
     about_me: str = ""
     concerns: str = ""
+    conversation_id: int | None = None
 
 
 @app.post("/chat")
@@ -64,18 +65,21 @@ async def chat(request: ChatRequest):
             detail="Database service is unavailable on port 8001",
         ) from exc
 
-    condition = request.condition.lower()
+    condition = (request.condition or user_profile.get("condition", "")).lower()
+    about_me = request.about_me or user_profile.get("about_me", "")
+    concerns = request.concerns or user_profile.get("concerns", "")
+
     if "anxiety" in condition:
-        prompt = get_anxiety_prompt(request.about_me, request.concerns, request.message)
+        prompt = get_anxiety_prompt(about_me, concerns, request.message)
     elif "memory" in condition:
-        prompt = get_memory_prompt(request.about_me, request.concerns, request.message)
+        prompt = get_memory_prompt(about_me, concerns, request.message)
     elif "ocd" in condition:
-        prompt = get_ocd_prompt(request.about_me, request.concerns, request.message)
+        prompt = get_ocd_prompt(about_me, concerns, request.message)
     else:
         prompt = f"""
         You are a warm, casual decision-making assistant.
-        Their condition: {request.condition}
-        Their concerns: {request.concerns}
+        Their condition: {condition}
+        Their concerns: {concerns}
 
         User message: {request.message}
         """
@@ -90,7 +94,7 @@ async def chat(request: ChatRequest):
     try:
         evidence_response = requests.get(
             f"{DB_BASE_URL}/evidence",
-            params={"query": f"{request.condition} {request.concerns}"},
+            params={"query": f"{condition} {concerns}".strip() or "general"},
             timeout=DATABASE_TIMEOUT_SECONDS,
         )
         evidence_response.raise_for_status()
@@ -110,14 +114,18 @@ async def chat(request: ChatRequest):
         contents=prompt,
     )
 
+    post_payload = {
+        "user_id": request.user_id,
+        "message": request.message,
+        "ai_response": response.text,
+    }
+    if request.conversation_id is not None:
+        post_payload["conversation_id"] = request.conversation_id
+
     try:
         saved = requests.post(
             f"{DB_BASE_URL}/decision",
-            json={
-                "user_id": request.user_id,
-                "message": request.message,
-                "ai_response": response.text,
-            },
+            json=post_payload,
             timeout=DATABASE_TIMEOUT_SECONDS,
         )
         saved.raise_for_status()
@@ -128,4 +136,7 @@ async def chat(request: ChatRequest):
             detail="Could not save the decision to the database service",
         ) from exc
 
-    return {"response": response.text, "decision_id": decision_id}
+    result = {"response": response.text, "decision_id": decision_id}
+    if request.conversation_id is not None:
+        result["conversation_id"] = request.conversation_id
+    return result

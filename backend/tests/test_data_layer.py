@@ -132,9 +132,9 @@ def test_database_initialization_creates_parent_directories(tmp_path):
             tables = connection.exec_driver_sql("SELECT name FROM sqlite_master WHERE type='table'").scalars().all()
             users = {row[1] for row in connection.exec_driver_sql("PRAGMA table_info(users)")}
             decisions = {row[1] for row in connection.exec_driver_sql("PRAGMA table_info(decisions)")}
-        assert set(tables) == {"users", "decisions"}
-        assert users == {"id", "name", "condition", "about_me", "concerns"}
-        assert decisions == {"id", "user_id", "message", "ai_response", "outcome", "timestamp"}
+        assert set(tables) == {"users", "decisions", "user_settings", "conversations"}
+        assert users == {"id", "name", "email", "phone_number", "password_hash", "condition", "about_me", "concerns", "traits"}
+        assert decisions == {"id", "user_id", "conversation_id", "message", "ai_response", "outcome", "timestamp"}
     finally:
         engine.dispose()
 
