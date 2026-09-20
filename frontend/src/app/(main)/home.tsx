@@ -16,7 +16,10 @@ export default function HomeScreen() {
 
   const handleSend = (text: string) => {
     const id = startNewConversation(text);
-    router.push(`/(main)/conversation/${id}`);
+    router.replace({
+        pathname: '/(main)/conversation/[id]',
+        params: { id },
+    } as any);
   };
 
   const handleSpeech = () => {

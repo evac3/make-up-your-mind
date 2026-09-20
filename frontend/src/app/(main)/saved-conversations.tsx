@@ -25,7 +25,7 @@ export default function SavedConversationsScreen() {
         renderItem={({ item }) => (
           <TouchableOpacity
             style={styles.card}
-            onPress={() => router.push(`/(main)/conversation/${item.id}`)}
+            onPress={() => router.replace(`/(main)/conversation/${item.id}` as any)}
           >
             <Text style={styles.topicBadge}>Topic</Text>
             <Text style={styles.cardTitle}>{item.title}</Text>

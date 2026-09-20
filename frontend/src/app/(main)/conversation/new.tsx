@@ -9,7 +9,10 @@ export default function NewConversationScreen() {
 
   useEffect(() => {
     const id = startNewConversation('Help me make a quick decision.');
-    router.replace(`/(main)/conversation/${id}`);
+    router.replace({
+        pathname: '/(main)/conversation/[id]',
+        params: { id },
+    } as any);
   }, [router, startNewConversation]);
 
   return <ScreenWrapper style={{ backgroundColor: '#FFFFFF' }} />;

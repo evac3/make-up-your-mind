@@ -24,7 +24,7 @@ export const OverlayPage: React.FC<Props> = ({ title, children, onClose }) => {
   };
 
   return (
-    <ScreenWrapper style={[styles.wrapper, { backgroundColor: colors.background }]}>
+    <ScreenWrapper style={{ ...styles.wrapper, backgroundColor: colors.background }}>
       <View style={[styles.header, { borderBottomColor: colors.border }]}>
         <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
         <TouchableOpacity
