@@ -52,35 +52,46 @@ def _rebuild_tables(engine: Engine, user_columns: set[str], decision_columns: se
             """CREATE TABLE users (
                 id INTEGER NOT NULL PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
-                condition TEXT NOT NULL,
-                about_me TEXT NOT NULL,
-                concerns TEXT NOT NULL
+                email VARCHAR(255) UNIQUE,
+                phone_number VARCHAR(50) UNIQUE,
+                password_hash VARCHAR(255),
+                condition TEXT NOT NULL DEFAULT '',
+                about_me TEXT NOT NULL DEFAULT '',
+                concerns TEXT NOT NULL DEFAULT '',
+                traits TEXT
             )"""
         )
         connection.exec_driver_sql(
             """CREATE TABLE decisions (
                 id INTEGER NOT NULL PRIMARY KEY,
                 user_id INTEGER NOT NULL,
+                conversation_id INTEGER,
                 message TEXT NOT NULL,
                 ai_response TEXT NOT NULL,
                 outcome TEXT,
                 timestamp DATETIME NOT NULL,
-                FOREIGN KEY(user_id) REFERENCES users (id)
+                FOREIGN KEY(user_id) REFERENCES users (id),
+                FOREIGN KEY(conversation_id) REFERENCES conversations (id)
             )"""
         )
+        email = "email" if "email" in user_columns else "NULL"
+        phone_number = "phone_number" if "phone_number" in user_columns else "NULL"
+        password_hash = "password_hash" if "password_hash" in user_columns else "NULL"
+        traits = "traits" if "traits" in user_columns else "NULL"
         condition = "COALESCE(condition, '')" if "condition" in user_columns else "''"
         about_me = "COALESCE(about_me, '')" if "about_me" in user_columns else "''"
         concerns = "COALESCE(concerns, '')" if "concerns" in user_columns else "''"
         connection.exec_driver_sql(
-            f"""INSERT INTO users (id, name, condition, about_me, concerns)
-                SELECT id, name, {condition}, {about_me}, {concerns} FROM users_legacy"""
+            f"""INSERT INTO users (id, name, email, phone_number, password_hash, condition, about_me, concerns, traits)
+                SELECT id, name, {email}, {phone_number}, {password_hash}, {condition}, {about_me}, {concerns}, {traits} FROM users_legacy"""
         )
+        conversation_id = "conversation_id" if "conversation_id" in decision_columns else "NULL"
         message = "message" if "message" in decision_columns else "question"
         timestamp = "timestamp" if "timestamp" in decision_columns else "created_at"
         outcome = "NULLIF(outcome, 'pending')" if "outcome" in decision_columns else "NULL"
         connection.exec_driver_sql(
-            f"""INSERT INTO decisions (id, user_id, message, ai_response, outcome, timestamp)
-                SELECT id, user_id, {message}, ai_response, {outcome}, {timestamp}
+            f"""INSERT INTO decisions (id, user_id, conversation_id, message, ai_response, outcome, timestamp)
+                SELECT id, user_id, {conversation_id}, {message}, ai_response, {outcome}, {timestamp}
                 FROM decisions_legacy"""
         )
         connection.exec_driver_sql("DROP TABLE decisions_legacy")
@@ -101,8 +112,14 @@ def init_db(engine: Engine) -> None:
     if engine.url.get_backend_name() != "sqlite":
         return
 
-    expected_users = {"id", "name", "condition", "about_me", "concerns"}
-    expected_decisions = {"id", "user_id", "message", "ai_response", "outcome", "timestamp"}
+    expected_users = {
+        "id", "name", "email", "phone_number", "password_hash",
+        "condition", "about_me", "concerns", "traits"
+    }
+    expected_decisions = {
+        "id", "user_id", "conversation_id", "message",
+        "ai_response", "outcome", "timestamp"
+    }
     users_columns = _sqlite_table_columns(engine, "users")
     decisions_columns = _sqlite_table_columns(engine, "decisions")
     if users_columns != expected_users or decisions_columns != expected_decisions:

@@ -8,7 +8,6 @@ from dotenv import load_dotenv
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
 
-app = FastAPI(title="Gemini Mood Service")
 
 gemini_client = genai.Client()
 
@@ -16,6 +15,7 @@ gemini_client = genai.Client()
 from prompts.anxiety import get_anxiety_prompt
 from prompts.ocd import get_ocd_prompt
 from prompts.memory import get_memory_prompt
+app = FastAPI(title="Make Up Your Mind — AI Gateway", version="0.1.0")
 
 PROMPT_BUILDERS = {
     "anxiety": get_anxiety_prompt,
