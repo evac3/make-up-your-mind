@@ -18,7 +18,7 @@ export const useConversation = (conversationId?: string) => {
 
       setTimeout(() => {
         const duckResponses = [
-          'Quack! What are your top 3 criteria for deciding this?',
+          'What are your top 3 criteria for deciding this?',
           'If you flip a coin and it lands on Option A, are you relieved or disappointed?',
           'What is the worst-case scenario if you go with your gut on this?',
         ];

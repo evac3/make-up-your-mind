@@ -29,11 +29,9 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Top Bar with RED home text and right menu */}
       <View style={styles.header}>
-        <Text style={styles.homeText}>Home</Text>
         <TouchableOpacity onPress={() => setMenuOpen(true)}>
-          <Ionicons name="ellipsis-horizontal-circle-sharp" size={32} color="#1C1C1E" />
+          <Ionicons name="ellipsis-horizontal-circle-sharp" size={40} color="#455099"/>
         </TouchableOpacity>
       </View>
 
@@ -54,15 +52,16 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FFFFFF', justifyContent: 'space-between' },
+  container: { flex: 1, backgroundColor: '#fbf5e5', justifyContent: 'space-between' },
   header: {
+    width: '100%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: 20,
+    paddingVertical: 16,
     height: 50,
   },
-  homeText: { color: 'red', fontSize: 22, fontWeight: '800' },
   centerArea: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  inputArea: { paddingHorizontal: 20, paddingBottom: 24, alignItems: 'center', gap: 16 },
+  inputArea: { paddingHorizontal: 20, paddingBottom: 100, alignItems: 'center', gap: 16 },
 });

@@ -104,7 +104,7 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FAF9F6' },
+  container: { flex: 1, backgroundColor: '#fbf5e5' },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -112,12 +112,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: '#E5E5EA',
+    borderColor: '#455099',
   },
-  title: { fontSize: 20, fontWeight: '700' },
+  title: { fontSize: 20, fontWeight: '700', color: '#455099' },
   content: { padding: 20, gap: 16 },
-  card: { backgroundColor: '#FFF', borderRadius: 14, padding: 16, gap: 12 },
-  cardHeader: { fontSize: 13, fontWeight: '700', color: '#8E8E93', textTransform: 'uppercase' },
+  card: { backgroundColor: '#fbf5e5', borderRadius: 14, padding: 16, gap: 12 },
+  cardHeader: { fontSize: 13, fontWeight: '700', color: '#455099', textTransform: 'uppercase' },
   row: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  label: { fontSize: 16, color: '#1C1C1E' },
+  label: { fontSize: 16, color: '#455099' },
 });

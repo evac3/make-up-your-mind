@@ -31,9 +31,8 @@ export default function LoginScreen() {
     >
       <ScreenWrapper>
         <ScrollView contentContainerStyle={styles.scroll}>
-          <Text style={styles.mascot}>🦆</Text>
           <Text style={styles.title}>Welcome Back</Text>
-          <Text style={styles.subtitle}>Log in to consult Decision Duck</Text>
+          <Text style={styles.subtitle}>Log in to consult Make Up Your Mind</Text>
 
           <View style={styles.form}>
             <Input
@@ -67,7 +66,7 @@ const styles = StyleSheet.create({
   keyboardContainer: { flex: 1 },
   scroll: { flexGrow: 1, justifyContent: 'center', alignItems: 'center' },
   mascot: { fontSize: 50, marginBottom: 8 },
-  title: { fontSize: 26, fontWeight: '800', color: '#1C1C1E' },
-  subtitle: { fontSize: 14, color: '#8E8E93', marginTop: 4, marginBottom: 24 },
+  title: { fontSize: 26, fontWeight: '800', color: '#455099' },
+  subtitle: { fontSize: 14, color: '#f18aac', marginTop: 4, marginBottom: 24 },
   form: { width: '100%', gap: 14 },
 });

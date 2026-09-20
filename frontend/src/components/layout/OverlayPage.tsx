@@ -24,7 +24,7 @@ export const OverlayPage: React.FC<Props> = ({ title, children, onClose }) => {
   };
 
   return (
-    <ScreenWrapper style={{ ...styles.wrapper, backgroundColor: colors.background }}>
+    <ScreenWrapper style={styles.wrapper}>
       <View style={[styles.header, { borderBottomColor: colors.border }]}>
         <Text style={[styles.title, { color: colors.text }]}>{title}</Text>
         <TouchableOpacity
@@ -32,7 +32,8 @@ export const OverlayPage: React.FC<Props> = ({ title, children, onClose }) => {
           hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
           style={styles.closeButton}
         >
-          <Ionicons name="close" size={26} color={colors.text} />
+          {/* 1. Locked size down slightly to match high density system standards */}
+          <Ionicons name="close" size={24} color={colors.text} />
         </TouchableOpacity>
       </View>
       <View style={styles.body}>{children}</View>
@@ -41,7 +42,8 @@ export const OverlayPage: React.FC<Props> = ({ title, children, onClose }) => {
 };
 
 const styles = StyleSheet.create({
-  wrapper: { paddingHorizontal: 0 },
+  // 2. Cleaned up style bindings to prevent padding leaks with ScreenWrapper
+  wrapper: {},
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -49,8 +51,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
+    width: '100%', // 3. Guarantees header stays bounded correctly within the 540px wrapper matrix
   },
   title: { fontSize: 20, fontWeight: '700' },
-  closeButton: { padding: 4 },
+  closeButton: { 
+    padding: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   body: { flex: 1 },
 });

@@ -14,7 +14,7 @@ export default function SavedConversationsScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Saved Conversations</Text>
         <TouchableOpacity onPress={() => router.replace('/(main)/home')}>
-          <Ionicons name="close" size={28} color="#1C1C1E" />
+          <Ionicons name="close" size={28} color="#455099" />
         </TouchableOpacity>
       </View>
 
@@ -38,20 +38,20 @@ export default function SavedConversationsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FAF9F6' },
+  container: { flex: 1, backgroundColor: '#fbf5e5' },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 14,
+    paddingVertical: 28,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: '#E5E5EA',
+    borderColor: '#fbf5e5',
   },
-  title: { fontSize: 20, fontWeight: '700' },
+  title: { fontSize: 20, fontWeight: '700', color: '#455099'},
   list: { padding: 16, gap: 12 },
-  card: { backgroundColor: '#FFF', padding: 16, borderRadius: 14, borderWidth: 1, borderColor: '#E5E5EA' },
-  topicBadge: { fontSize: 11, fontWeight: '700', color: '#8A2BE2', textTransform: 'uppercase' },
-  cardTitle: { fontSize: 16, fontWeight: '600', color: '#1C1C1E', marginVertical: 4 },
-  count: { fontSize: 12, color: '#8E8E93' },
+  card: { backgroundColor: '#fbf5e5', padding: 16, borderRadius: 14, borderWidth: 1, borderColor: '#455099' },
+  topicBadge: { fontSize: 11, fontWeight: '700', color: '#455099', textTransform: 'uppercase' },
+  cardTitle: { fontSize: 16, fontWeight: '600', color: '#455099', marginVertical: 4 },
+  count: { fontSize: 12, color: '#455099' },
 });

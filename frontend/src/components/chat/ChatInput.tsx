@@ -23,13 +23,13 @@ export const ChatInput: React.FC<Props> = ({ onSend }) => {
         value={text}
         onChangeText={setText}
         placeholder="Type a message or question..."
-        placeholderTextColor="#8E8E93"
+        placeholderTextColor="#f18aac"
         style={[styles.input, largeText && styles.largeInput]}
         onSubmitEditing={handleSend}
         returnKeyType="send"
       />
       <TouchableOpacity onPress={handleSend} disabled={!text.trim()} style={styles.sendButton}>
-        <Ionicons name="arrow-up-circle" size={32} color={text.trim() ? '#8A2BE2' : '#C7C7CC'} />
+        <Ionicons name="arrow-up-circle" size={32} color={text.trim() ? '#455099' : '#fbf5e5'} />
       </TouchableOpacity>
     </View>
   );
@@ -40,12 +40,14 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F2F2F7',
+    backgroundColor: '#fbf5e5',
+    borderColor: '#455099',
+    borderWidth: 2,
     borderRadius: 24,
     paddingHorizontal: 16,
     paddingVertical: 8,
   },
-  input: { flex: 1, fontSize: 16, color: '#1C1C1E', maxHeight: 80 },
+  input: { flex: 1, fontSize: 16, color: '#455099', maxHeight: 100},
   largeInput: { fontSize: 20 },
   sendButton: { marginLeft: 8 },
 });

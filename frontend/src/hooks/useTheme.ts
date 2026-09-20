@@ -6,20 +6,20 @@ export const useTheme = () => {
 
   const colors = darkMode
     ? {
-        background: '#121212',
-        card: '#1E1E1E',
-        text: '#FFFFFF',
-        subtext: '#8E8E93',
-        border: '#2C2C2E',
+        background: '#455099',
+        card: '#455099',
+        text: '#fbf5e5',
+        subtext: '#f18aac',
+        border: '#455099',
         primary: '#8A2BE2',
         secondary: '#007AFF',
       }
     : {
-        background: '#FAF9F6',
-        card: '#FFFFFF',
-        text: '#1C1C1E',
-        subtext: '#636366',
-        border: '#E5E5EA',
+        background: '#fbf5e5',
+        card: '#fbf5e5',
+        text: '#455099',
+        subtext: '#f18aac',
+        border: '#fbf5e5',
         primary: '#8A2BE2',
         secondary: '#007AFF',
       };
@@ -27,6 +27,6 @@ export const useTheme = () => {
   return {
     isDark: darkMode,
     isLargeText: largeText,
-    colors,
+    colors
   };
 };

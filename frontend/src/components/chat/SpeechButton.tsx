@@ -13,7 +13,7 @@ export const SpeechButton: React.FC<Props> = ({ onPress, isListening }) => (
     onPress={onPress}
     style={[styles.button, isListening && styles.listening]}
   >
-    <Ionicons name={isListening ? 'radio' : 'mic'} size={36} color="#FFFFFF" />
+    <Ionicons name={isListening ? 'radio' : 'mic'} size={36} color="#fbf5e5" />
   </TouchableOpacity>
 );
 
@@ -22,14 +22,14 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#455099',
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#007AFF',
+    shadowColor: '#455099',
     shadowOpacity: 0.35,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 4 },
     elevation: 6,
   },
-  listening: { backgroundColor: '#FF3B30' },
+  listening: { backgroundColor: '#f18aac' },
 });

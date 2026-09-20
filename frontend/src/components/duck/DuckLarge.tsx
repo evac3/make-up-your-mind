@@ -1,29 +1,37 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+
+// 1. Import your local full duck image asset
+const DuckFullImg = require('../../../assets/images/duck_full.png');
 
 export const DuckLarge = () => (
   <View style={styles.container}>
+    <Text style={styles.label}>Type or push to speak and ask me anything!</Text>
     <View style={styles.circle}>
-      <Text style={styles.duckText}>🦆</Text>
+      <Image 
+        source={DuckFullImg} 
+        style={styles.duckImage}
+        resizeMode="cover"
+      />
     </View>
-    <Text style={styles.label}>Decision Duck</Text>
   </View>
 );
 
 const styles = StyleSheet.create({
   container: { alignItems: 'center', marginVertical: 24 },
   circle: {
-    width: 140,
-    height: 140,
+    width: 300,
+    height: 300,
     borderRadius: 70,
-    backgroundColor: '#FFE600',
     alignItems: 'center',
     justifyContent: 'center',
+    overflow: 'hidden',
     elevation: 4,
-    shadowColor: '#000',
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
+    marginTop: 24,
   },
-  duckText: { fontSize: 72 },
-  label: { marginTop: 12, fontSize: 18, fontWeight: '700', color: '#1C1C1E' },
+  duckImage: {
+    width: '100%',
+    height: '100%',
+  },
+  label: { marginTop: 12, fontSize: 18, fontWeight: '700', color: '#455099' },
 });

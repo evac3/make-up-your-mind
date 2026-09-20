@@ -25,8 +25,8 @@ export const Toggle: React.FC<Props> = ({ label, value, onValueChange, descripti
       <Switch
         value={value}
         onValueChange={onValueChange}
-        trackColor={{ false: '#E5E5EA', true: '#8A2BE2' }}
-        thumbColor="#FFFFFF"
+        trackColor={{ false: '#fbf5e5', true: '#f18aac' }}
+        thumbColor="#fbf5e5"
       />
     </View>
   );

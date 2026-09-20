@@ -32,7 +32,7 @@ export default function ProfileScreen() {
       <View style={styles.header}>
         <Text style={styles.title}>Profile</Text>
         <TouchableOpacity onPress={() => router.replace('/(main)/home')}>
-          <Ionicons name="close" size={28} color="#1C1C1E" />
+          <Ionicons name="close" size={28} color="#455099" />
         </TouchableOpacity>
       </View>
 
@@ -99,7 +99,7 @@ export default function ProfileScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#FAF9F6' },
+  container: { flex: 1, backgroundColor: '#fbf5e5' },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -107,20 +107,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: '#E5E5EA',
+    borderColor: '#fbf5e5',
   },
   title: { fontSize: 20, fontWeight: '700' },
   content: { padding: 20, gap: 16 },
   group: { gap: 6 },
-  label: { fontSize: 13, fontWeight: '600', color: '#8E8E93', textTransform: 'uppercase' },
-  input: { backgroundColor: '#FFF', borderWidth: 1, borderColor: '#E5E5EA', borderRadius: 12, padding: 14, fontSize: 16 },
-  locked: { backgroundColor: '#F2F2F7', color: '#8E8E93' },
+  label: { fontSize: 13, fontWeight: '600', color: '#fbf5e5', textTransform: 'uppercase' },
+  input: { backgroundColor: '#fbf5e5', color: '#f18aac', borderWidth: 1, borderColor: '#455099', borderRadius: 12, padding: 14, fontSize: 16 },
+  locked: { backgroundColor: '#fbf5e5', color: '#455099' },
   traitRow: { flexDirection: 'row', gap: 8 },
-  addBtn: { backgroundColor: '#8A2BE2', paddingHorizontal: 16, borderRadius: 12, justifyContent: 'center' },
-  addBtnText: { color: '#FFF', fontWeight: '700' },
+  addBtn: { backgroundColor: '#deb2f0', paddingHorizontal: 16, borderRadius: 12, justifyContent: 'center' },
+  addBtnText: { color: '#fbf5e5', fontWeight: '700' },
   chips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 6 },
-  chip: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: '#E5E5EA', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 14 },
+  chip: { flexDirection: 'row', alignItems: 'center', gap: 6, backgroundColor: '#fbf5e5', paddingHorizontal: 10, paddingVertical: 6, borderRadius: 14 },
   chipText: { fontSize: 14 },
-  saveBtn: { backgroundColor: '#007AFF', padding: 16, borderRadius: 14, alignItems: 'center', marginTop: 10 },
-  saveText: { color: '#FFF', fontSize: 16, fontWeight: '700' },
+  saveBtn: { backgroundColor: '#79cbde', padding: 16, borderRadius: 14, alignItems: 'center', marginTop: 10 },
+  saveText: { color: '#fbf5e5', fontSize: 16, fontWeight: '700' },
 });
