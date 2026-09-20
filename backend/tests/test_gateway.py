@@ -147,6 +147,23 @@ def test_chat_returns_decision_id(client, mock_gemini):
     assert resp.json()["decision_id"] == 42
 
 
+def test_chat_with_conversation_id_and_profile_fallback(client, mock_gemini):
+    """Verifies that follow-up chat calls can omit condition and pass conversation_id."""
+    with patch("main.requests.get", side_effect=_db_side_effect), \
+         patch("main.requests.post", side_effect=_db_post_side_effect):
+        resp = client.post("/chat", json={
+            "user_id": 1,
+            "message": "Follow up question",
+            "conversation_id": 10,
+        })
+
+    assert resp.status_code == 200
+    data = resp.json()
+    assert data["decision_id"] == 42
+    assert data["conversation_id"] == 10
+    assert data["response"] == "Here is my advice."
+
+
 # ---------------------------------------------------------------------------
 # /chat — failure modes
 # ---------------------------------------------------------------------------
