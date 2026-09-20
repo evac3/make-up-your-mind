@@ -83,8 +83,13 @@ class DuckDBService:
             df.to_parquet(self.dataset_path, index=False)
         return self.dataset_path
 
-    def search_evidence(self, query: str, limit: int = 5):
-        """Rank evidence by distinct matching words, ignoring common question words."""
+    def search_evidence(self, query: str, category: str | None = None, limit: int = 10):
+        """Rank evidence by distinct matching words, ignoring common question words.
+
+        When *category* is provided, results from that category are boosted
+        (scored with a bonus) so condition-relevant papers rise to the top
+        while still allowing cross-cutting evidence through.
+        """
         stop_words = {
             "a", "an", "and", "are", "as", "at", "be", "by", "can", "could", "do",
             "for", "from", "has", "have", "how", "i", "if", "in", "is", "it", "me",
@@ -96,12 +101,18 @@ class DuckDBService:
         if not terms or limit <= 0:
             return []
         path = self.ensure_public_dataset()
+
+        # Boost matching-category rows so they rank higher, but still allow
+        # cross-cutting results (e.g. CBT evidence for an anxiety user).
+        cat_value = (category or "").strip().lower() or "__none__"
+
         with self.get_connection() as con:
             rows = con.execute(
                 """
                 WITH terms AS (SELECT unnest(?::VARCHAR[]) AS term),
                 matches AS (
-                    SELECT id, title, category, summary, keywords, count(*) AS score
+                    SELECT id, title, category, summary, keywords,
+                           count(*) + CASE WHEN lower(category) = ? THEN 3 ELSE 0 END AS score
                     FROM read_parquet(?) CROSS JOIN terms
                     WHERE list_contains(
                         regexp_extract_all(lower(concat_ws(' ', title, summary, keywords)), '[a-z0-9]+'),
@@ -114,7 +125,7 @@ class DuckDBService:
                 ORDER BY score DESC, id
                 LIMIT ?
                 """,
-                [terms, str(path), limit],
+                [terms, cat_value, str(path), limit],
             ).fetchdf()
         return [
             {**row, "source": f"{path.name}#{row['id']}"}

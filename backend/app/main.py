@@ -372,9 +372,10 @@ def create_app(
     @application.get("/evidence")
     def get_evidence(
         query: str = Query(..., min_length=1),
+        category: str | None = Query(None),
         duckdb_service: DuckDBService = Depends(get_duckdb_service),
     ) -> list[dict[str, Any]]:
-        return duckdb_service.search_evidence(query)
+        return duckdb_service.search_evidence(query, category=category)
 
     return application
 
